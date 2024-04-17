@@ -346,7 +346,19 @@
   replaceMap();
   replaceStrings();
 
+  let resTable = undefined;
+  function getTable() {
+    if (!resTable) {
+      resTable = Object.assign({}, MAPPING);
+      for (let i in resTable) {
+        resTable[i] = encode(i);
+      }
+    }
+    return Object.assign({}, resTable);
+  }
+  
   self.JSFuck = {
-    encode: encode
+    encode: encode,
+    getTable: getTable,
   };
 })(typeof(exports) === "undefined" ? window : exports);
