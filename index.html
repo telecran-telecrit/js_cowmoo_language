@@ -85,6 +85,7 @@
 
   <input id="input" type="text" value="alert(1)"/> 
   <button id="encode" type="text">Encode</button>
+  <button id="randomcowmoo" type="text">Random Cow-Moo</button>
   
   <div class="checkbox">
     <input id="eval" type="checkbox" checked />
@@ -149,6 +150,20 @@
     function $(id){
       return document.getElementById(id);
     }
+
+    function genRandomString3(characters = 'MmOo', length = 3) {
+        let result = '';
+        let counter = 0;
+        while (counter < length) {
+          result += characters.charAt(Math.floor(Math.random() * characters.length));
+          counter += 1;
+        }
+        return result;
+    }
+
+    function getRandomInt(minimum, maximum) {
+        return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+    }
     
     function encode(){
       var output = JSFuck.encode($("input").value, $("eval").checked, $("scope").checked);
@@ -156,6 +171,15 @@
       $("stats").innerHTML = output.length + " chars";
     }
   
+    $("randomcowmoo").onclick = function() {
+        var rs3 = genRandomString3.bind(null, 'NnIi');
+        var t = getRandomInt(3, 7);
+        var v = '';
+        while (t-- > 0) {
+           v += '+' + rs3();
+        }
+        $("input").value = v;
+    }
     $("encode").onclick = encode;
     $("eval").onchange = encode;
     $("scope").onchange = encode;
