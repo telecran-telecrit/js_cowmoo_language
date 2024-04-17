@@ -170,6 +170,18 @@
       }
       return false;
     };
+
+    document.body.insertAdjacentHTML('beforeend', `
+<h3>Advanced</h3>
+<ul class="pre">
+</ul>
+`);
+    let tbl = JSFuck.getTable();
+    let lastUL = document.body.querySelector('ul:last-child');
+    for (let key in tbl) {
+      let value = tbl[key];
+      lastUL.insertAdjacentHTML('beforeend', '<li>' + key + '       =>  ' + value + '</li>');
+    }
   </script>
   
   <script type="text/javascript">
