@@ -14,7 +14,7 @@ function getCurrentScript () {
     return (!!src) ? script : undefined;
 }
 
-console.log('getCurrentScript: ', getCurrentScript().src);
+//console.log('getCurrentScript: ', getCurrentScript().src);
 
 function getParams () {
     try {
@@ -46,10 +46,18 @@ function getParams () {
     }
 }
 
-console.log(getParams());
+//console.log(getParams());
 
 (function(self){
   const MIN = 32, MAX = 126;
+  
+  const usedKeys = getParams()['usedkeys'];
+  if (!usedKeys || !usedKeys.length) {
+    throw Error('usedkeys string parameter is required!');
+  }
+  if (usedKeys.length < 6 || usedKeys.indexOf('[') < 0 || usedKeys.indexOf(']' < 0) || usedKeys.indexOf('(') < 0 || usedKeys.indexOf(')') < 0 || usedKeys.indexOf('!') < 0 || usedKeys.indexOf('+') < 0) {
+    throw Error('usedkeys 6 characters minimum is: []()!+');
+  }
 
   const SIMPLE = {
     'false':      '![]',
@@ -158,6 +166,12 @@ console.log(getParams());
     '}':   '([]["flat"]+"")["slice"]("-1")',
     '~':   null
   };
+  
+  for (let key in MAPPING) {
+    if (usedKeys.indexOf(key) >= 0 && !MAPPING[key]) {
+      MAPPING[key] = key;
+    }
+  }
 
   const GLOBAL = 'Function("return this")()';
 
