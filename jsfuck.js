@@ -55,6 +55,9 @@ function getParams () {
   if (!usedKeys || !usedKeys.length) {
     throw Error('usedkeys string parameter is required!');
   }
+  if (usedKeys.indexOf(' ') >= 0) {
+    usedKeys[usedKeys.indexOf(' ')] = '+';
+  }
   if (usedKeys.length < 6 || usedKeys.indexOf('[') < 0 || usedKeys.indexOf(']' < 0) || usedKeys.indexOf('(') < 0 || usedKeys.indexOf(')') < 0 || usedKeys.indexOf('!') < 0 || usedKeys.indexOf('+') < 0) {
     throw Error('usedkeys 6 characters minimum is: []()!+');
   }
