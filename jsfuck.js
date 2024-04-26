@@ -56,9 +56,11 @@ function getParams () {
     throw Error('usedkeys string parameter is required!');
   }
   if (usedKeys.indexOf(' ') >= 0) {
+    usedKeys = usedKeys.split('');
     usedKeys[usedKeys.indexOf(' ')] = '+';
+    usedKeys.join('');
   }
-  if (usedKeys.length < 6 || usedKeys.indexOf('[') < 0 || usedKeys.indexOf(']' < 0) || usedKeys.indexOf('(') < 0 || usedKeys.indexOf(')') < 0 || usedKeys.indexOf('!') < 0 || usedKeys.indexOf('+') < 0) {
+  if (usedKeys.length < 6 || usedKeys.indexOf('[') < 0 || usedKeys.indexOf(']') < 0 || usedKeys.indexOf('(') < 0 || usedKeys.indexOf(')') < 0 || usedKeys.indexOf('!') < 0 || usedKeys.indexOf('+') < 0) {
     throw Error('usedkeys 6 characters minimum is: []()!+');
   }
 
