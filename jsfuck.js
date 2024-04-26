@@ -309,9 +309,9 @@ var global = global || window;
 
     for (all in MAPPING){
       if (MAPPING[all]){
-        if (usedKeys.indexOf(all) < 0 || !isAlphaNum1(all)) {
+        //if (usedKeys.indexOf(all) < 0 || !isAlphaNum1(all)) {
           MAPPING[all] = MAPPING[all].replace(/\"([^\"]+)\"/gi, mappingReplacer);
-        }
+        //}
       }
     }
 
