@@ -289,18 +289,34 @@ var global = global || window;
     function mappingReplacer(a, b) {
       return b.split("").join("+");
     }
+    
+    function mappingReplacer2(a, b) {
+      return MAPPING[b];
+    }
 
     function valueReplacer(c) {
       return missing[c] ? c : MAPPING[c];
     }
+    
+    usedKeysA = [];
+    for (let key of usedKeys) {
+      if (isAlphaNum1(key)) {
+        usedKeysA.push(key);
+      }
+    }
 
     for (all in MAPPING){
       if (MAPPING[all]){
-        if (usedKeys.indexOf(all) < 0 || !isAlphaNum1(all)) {
+        if ((usedKeys.indexOf(all) < 0 || !isAlphaNum1(all)) && !MAPPING[all].includes(usedKeysA)) {
           MAPPING[all] = MAPPING[all].replace(/\"([^\"]+)\"/gi, mappingReplacer);
+        } else {
+          MAPPING[all] = MAPPING[all].replace(/\"([^\"]+)\"/gi, mappingReplacer);
+          MAPPING[all] = MAPPING[all].replace(RegExp('([' + (usedKeysA.join('')) + ']+)', 'gi'), mappingReplacer2);
         }
       }
     }
+    
+    
     
     while (findMissing()){
       //console.log('mmm');
