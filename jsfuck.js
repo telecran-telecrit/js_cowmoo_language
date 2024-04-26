@@ -333,7 +333,7 @@ var global = global || window;
     }
     
     for (let key in MAPPING) {
-      if (usedKeys.indexOf(key) >= 0 && (!MAPPING[key] || '[]()!+'.indexOf(key) < 0)) {
+      if (usedKeys.indexOf(key) >= 0 && (!MAPPING[key] || '[]()!+'.indexOf(key) < 0) && isAlphaNum1(key)) {
         MAPPING[key] = '[]+"' + key + '"+[]';
       }
     }
