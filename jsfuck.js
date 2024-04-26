@@ -1,5 +1,52 @@
 /*! JSFuck 0.5.0 - http://jsfuck.com */
 
+function getCurrentScript () {
+    var src = undefined;
+    var script = undefined;
+    try {
+      src = document.currentScript.src;
+      script = document.currentScript;
+    } catch (e0) {
+      var scripts = document.getElementsByTagName('script');
+      script = scripts[scripts.length - 1];
+      src = script.src;
+    }
+    return (!!src) ? script : undefined;
+}
+
+console.log('getCurrentScript: ', getCurrentScript().src);
+
+function getParams () {
+    try {
+        var urlParams = {};
+        var query = getCurrentScript().src.search.substring(1),
+            match,
+            pl = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) {
+                return decodeURIComponent(s.replace(pl, " "));
+            };
+
+        while (match = search.exec(query)) {
+            var key = decode(match[1]);
+            var value = decode(match[2]);
+            if (key in urlParams) {
+                if (!Array.isArray(urlParams[key])) {
+                    urlParams[key] = [urlParams[key]];
+                }
+                urlParams[key].push(value);
+            } else {
+                urlParams[key] = value;
+            }
+        }
+        return urlParams;
+    } catch (e1) {
+        return null;
+    }
+}
+
+console.log(getParams());
+
 (function(self){
   const MIN = 32, MAX = 126;
 
