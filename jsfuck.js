@@ -72,7 +72,7 @@ var global = global || window;
   if (usedKeys.indexOf(' ') >= 0) {
     usedKeys = usedKeys.split('');
     usedKeys[usedKeys.indexOf(' ')] = '+';
-    usedKeys.join('');
+    usedKeys = usedKeys.join('');
   }
   if (usedKeys.length < 6 || usedKeys.indexOf('[') < 0 || usedKeys.indexOf(']') < 0 || usedKeys.indexOf('(') < 0 || usedKeys.indexOf(')') < 0 || usedKeys.indexOf('!') < 0 || usedKeys.indexOf('+') < 0) {
     throw Error('usedkeys 6 characters minimum is: []()!+');
@@ -260,7 +260,7 @@ var global = global || window;
     var regEx;
     console.log('usedKeys', usedKeys);
     if (!!usedKeys && usedKeys.length > 0) {
-      regEx = RegExp( '[^' + (usedKeys.map(h => (isAlphaNum1(h)) ? h : '\\' + h).join('')) + ']{1}', 'g');
+      regEx = RegExp( '[^' + (usedKeys.split('').map(h => (isAlphaNum1(h)) ? h : '\\' + h).join('')) + ']{1}', 'g');
     } else {
       regEx = /[^\[\]\(\)\!\+]{1}/g;
     }
@@ -304,19 +304,18 @@ var global = global || window;
         usedKeysA.push(key);
       }
     }
+    usedKeysA = usedKeysA.join('');
 
     for (all in MAPPING){
       if (MAPPING[all]){
-        if ((usedKeys.indexOf(all) < 0 || !isAlphaNum1(all)) && !MAPPING[all].includes(usedKeysA)) {
+        if ((usedKeys.indexOf(all) < 0 || !isAlphaNum1(all)) && MAPPING[all].split('').filter(m => usedKeysA.split('').includes(m)).length == 0) {
           MAPPING[all] = MAPPING[all].replace(/\"([^\"]+)\"/gi, mappingReplacer);
-        } else {
+        } else if (usedKeys.indexOf(all) < 0 || !isAlphaNum1(all)) {
           MAPPING[all] = MAPPING[all].replace(/\"([^\"]+)\"/gi, mappingReplacer);
-          MAPPING[all] = MAPPING[all].replace(RegExp('([' + (usedKeysA.join('')) + ']+)', 'gi'), mappingReplacer2);
+          MAPPING[all] = MAPPING[all].replace(RegExp('([' + (usedKeysA.split('').filter(m => isAlphaNum1(m)).join('')) + ']+)', 'gi'), mappingReplacer2);
         }
       }
     }
-    
-    
     
     while (findMissing()){
       //console.log('mmm');
@@ -341,7 +340,7 @@ var global = global || window;
     for (let key of usedKeys) {
       if (isAlphaNum1(key) && usedKeys.indexOf('"') < 0) {
         MAPPING['"'] = '"';
-        usedKeys.push('"');
+        usedKeys += '"';
         break;
       }
     }
