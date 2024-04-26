@@ -188,7 +188,7 @@ var global = global || window;
   
   for (let key in MAPPING) {
     if (usedKeys.indexOf(key) >= 0 && (!MAPPING[key] || '[]()!+'.indexOf(key) < 0)) {
-      MAPPING[key] = '"' + key + '"';
+      MAPPING[key] = '[]+"' + key + '"';
     }
   }
 
