@@ -51,7 +51,7 @@ function getParams () {
 (function(self){
   const MIN = 32, MAX = 126;
   
-  const usedKeys = getParams()['usedkeys'];
+  let usedKeys = getParams()['usedkeys'];
   if (!usedKeys || !usedKeys.length) {
     throw Error('usedkeys string parameter is required!');
   }
