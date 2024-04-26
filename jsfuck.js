@@ -19,7 +19,8 @@ console.log('getCurrentScript: ', getCurrentScript().src);
 function getParams () {
     try {
         var urlParams = {};
-        var query = getCurrentScript().src.search.substring(1),
+        var search = getCurrentScript().src.split('?')[1] || ''; // window.location.href.split('?')[1] || '';
+        var query = search.split('#')[0],
             match,
             pl = /\+/g,  // Regex for replacing addition symbol with a space
             search = /([^&=]+)=?([^&]*)/g,
