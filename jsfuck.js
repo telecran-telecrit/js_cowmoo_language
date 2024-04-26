@@ -6,8 +6,6 @@ var global = global || window;
 (function(self){
   const MIN = 32, MAX = 126;
 
-  console.log('url', global.__filename || __filename);
-
   function getCurrentScript () {
       try {
         var src = undefined;
