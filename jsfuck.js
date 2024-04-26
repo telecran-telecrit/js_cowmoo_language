@@ -185,19 +185,6 @@ var global = global || window;
     '}':   '([]["flat"]+"")["slice"]("-1")',
     '~':   null
   };
-  
-  for (let key in MAPPING) {
-    if (usedKeys.indexOf(key) >= 0 && (!MAPPING[key] || '[]()!+'.indexOf(key) < 0)) {
-      MAPPING[key] = '[]+"' + key + '"+[]';
-    }
-  }
-  for (let key of usedKeys) {
-    if (isAlphaNum1(key) && usedKeys.indexOf('"') < 0) {
-      MAPPING['"'] = '"';
-      usedKeys.push('"');
-      break;
-    }
-  }
 
   const GLOBAL = 'Function("return this")()';
 
@@ -309,9 +296,22 @@ var global = global || window;
 
     for (all in MAPPING){
       if (MAPPING[all]){
-        //if (usedKeys.indexOf(all) < 0 || !isAlphaNum1(all)) {
+        if (usedKeys.indexOf(all) < 0 || !isAlphaNum1(all)) {
           MAPPING[all] = MAPPING[all].replace(/\"([^\"]+)\"/gi, mappingReplacer);
-        //}
+        }
+      }
+    }
+    
+    for (let key in MAPPING) {
+      if (usedKeys.indexOf(key) >= 0 && (!MAPPING[key] || '[]()!+'.indexOf(key) < 0)) {
+        MAPPING[key] = '[]+"' + key + '"+[]';
+      }
+    }
+    for (let key of usedKeys) {
+      if (isAlphaNum1(key) && usedKeys.indexOf('"') < 0) {
+        MAPPING['"'] = '"';
+        usedKeys.push('"');
+        break;
       }
     }
 
