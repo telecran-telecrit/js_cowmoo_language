@@ -302,19 +302,6 @@ var global = global || window;
       }
     }
     
-    for (let key in MAPPING) {
-      if (usedKeys.indexOf(key) >= 0 && (!MAPPING[key] || '[]()!+'.indexOf(key) < 0)) {
-        MAPPING[key] = '[]+"' + key + '"+[]';
-      }
-    }
-    for (let key of usedKeys) {
-      if (isAlphaNum1(key) && usedKeys.indexOf('"') < 0) {
-        MAPPING['"'] = '"';
-        usedKeys.push('"');
-        break;
-      }
-    }
-
     while (findMissing()){
       //console.log('mmm');
       for (all in missing){
@@ -329,6 +316,20 @@ var global = global || window;
         console.error("Could not compile the following chars:", missing);
       }
     }
+    
+    for (let key in MAPPING) {
+      if (usedKeys.indexOf(key) >= 0 && (!MAPPING[key] || '[]()!+'.indexOf(key) < 0)) {
+        MAPPING[key] = '[]+"' + key + '"+[]';
+      }
+    }
+    for (let key of usedKeys) {
+      if (isAlphaNum1(key) && usedKeys.indexOf('"') < 0) {
+        MAPPING['"'] = '"';
+        usedKeys.push('"');
+        break;
+      }
+    }
+
   }
 
   function escapeSequence(c) {
