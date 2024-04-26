@@ -188,7 +188,7 @@ var global = global || window;
   
   for (let key in MAPPING) {
     if (usedKeys.indexOf(key) >= 0 && (!MAPPING[key] || '[]()!+'.indexOf(key) < 0)) {
-      MAPPING[key] = '[]+"\\' + key + '"';
+      MAPPING[key] = '[]+"' + key + '"';
     }
   }
 
@@ -257,12 +257,16 @@ var global = global || window;
       MAPPING[character] = value;
     }
   }
+  
+  function isAlphaNum1 (h) {
+    return (h >= 'a' && h <= 'z') || (h >= 'A' && h <= 'Z') || (h >= '0' && h <= '9');
+  }
 
   function replaceStrings(){
     var regEx;
     console.log('usedKeys', usedKeys);
     if (!!usedKeys && usedKeys.length > 0) {
-      regEx = RegExp( '[^' + (usedKeys.map(h => ((h >= 'a' && h <= 'z') || (h >= 'A' && h <= 'Z') || (h >= '0' && h <= '9')) ? h : '\\' + h).join('')) + ']{1}', 'g');
+      regEx = RegExp( '[^' + (usedKeys.map(h => (isAlphaNum1(h)) ? h : '\\' + h).join('')) + ']{1}', 'g');
     } else {
       regEx = /[^\[\]\(\)\!\+]{1}/g;
     }
@@ -298,7 +302,9 @@ var global = global || window;
 
     for (all in MAPPING){
       if (MAPPING[all]){
-        MAPPING[all] = MAPPING[all].replace(/\"([^\"]+)\"/gi, mappingReplacer);
+        if (usedKeys.indexOf(all) < 0 || !isAlphaNum1(all)) {
+          MAPPING[all] = MAPPING[all].replace(/\"([^\"]+)\"/gi, mappingReplacer);
+        }
       }
     }
 
